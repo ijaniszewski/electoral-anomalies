@@ -91,8 +91,10 @@ def load_data(year, round, ext="csv"):
     file_path = os.path.join(
         POLAND_RAW_DATA, f"{year}_presidential", f"round{round}.{ext}"
     )
+    if int(year) == 2020:
+        dtype = {col: "str" for col in range(11, 44)}
     if ext == "csv":
-        df = pd.read_csv(file_path, sep=";", encoding="utf-8")
+        df = pd.read_csv(file_path, sep=";", encoding="utf-8", dtype=dtype)
     elif ext == "xls":
         df = pd.read_excel(file_path, dtype={"TERYT gminy": str})
     else:
@@ -156,8 +158,10 @@ def join_both_rounds(cand_A, cand_B, df_r1, df_r2):
         # Step 1: Keep only selected columns
         df = df[keep_columns]
         df = df.dropna(subset=["teryt_gmina"])
-        # Step 2: Convert teryt_gmina to integer
-        df["teryt_gmina"] = df["teryt_gmina"].astype(int)
+        # Step 2: Convert columns to integer
+        df[["teryt_gmina", cand_A, cand_B]] = df[
+            ["teryt_gmina", cand_A, cand_B]
+        ].astype(int)
         return df
 
     df_r1 = clean_df(df_r1)
