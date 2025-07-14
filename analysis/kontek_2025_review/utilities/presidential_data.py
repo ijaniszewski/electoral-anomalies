@@ -1,9 +1,11 @@
 import os
 import re
+from pathlib import Path
 
 import pandas as pd
 
-POLAND_RAW_DATA = os.path.join(os.getcwd(), "data", "raw", "poland")
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+POLAND_RAW_DATA = os.path.join(PROJECT_ROOT, "data", "raw", "poland")
 
 BASE_COLUMNS_MAP = {
     # 2025
@@ -91,6 +93,7 @@ def load_data(year, round, ext="csv"):
     file_path = os.path.join(
         POLAND_RAW_DATA, f"{year}_presidential", f"round{round}.{ext}"
     )
+    dtype = None
     if int(year) == 2020:
         dtype = {col: "str" for col in range(11, 44)}
     if ext == "csv":
