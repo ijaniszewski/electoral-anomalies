@@ -45,7 +45,7 @@ Choć różnica ta prawdopodobnie nie wpływa znacząco na ogólny obraz wynikó
 ## Odpowiedź na potencjalny zarzut
 Zapewne autor może w takim razie stwierdzić - "to nie są moje obliczenia, więc cała ta analiza jest bez sensu". I zapewne będzie mieć w tym trochę racji, jednak doprowadziło do tego brak dostępu do kodu i nieprecyzyjny opis metod uniemożliwiają wierne odtworzenie wyników. Pomimo tego, uważam, że nawet przybliżone odwzorowanie pozwala wskazać poważne słabości i błędy w metodologii oryginalnej analizy.
 
-### Komentarz wyników
+## Komentarz wyników
 Jak widać, wyniki z roku 2025 nie odbiegają istotnie od danych z lat wcześniejszych. Rozkład liczby anomalii — niezależnie od kandydata — pozostaje na porównywalnym poziomie w każdej analizowanej elekcji.
 
 Oczywiście nie oznacza to, że błędy nie występują. Przy ponad 32 tysiącach komisji wyborczych, ludzki błąd oraz statystyczne odchylenia są nieuniknione. To naturalny element każdego dużego procesu organizacyjnego.
