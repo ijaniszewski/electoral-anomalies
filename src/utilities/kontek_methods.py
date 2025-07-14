@@ -30,7 +30,7 @@ def mad(series):
     return median_abs_deviation(series)
 
 
-def add_anomaly_1(df, cand_A, cand_B, k=2, new_col_name="anomaly_1"):
+def add_anomaly_1(df, cand_A, cand_B, new_col_name="k_score_1"):
     # mediana w grupie
     df[cand_A + "_median_r2"] = df.groupby("bucket")[cand_A + "_r2"].transform("median")
     df[cand_B + "_median_r2"] = df.groupby("bucket")[cand_B + "_r2"].transform("median")
@@ -39,16 +39,12 @@ def add_anomaly_1(df, cand_A, cand_B, k=2, new_col_name="anomaly_1"):
     df[cand_A + "_MAD_r2"] = df.groupby("bucket")[cand_A + "_r2"].transform(mad)
     df[cand_B + "_MAD_r2"] = df.groupby("bucket")[cand_B + "_r2"].transform(mad)
 
-    df[cand_A + "_k_score_1"] = (df[cand_A + "_r2"] - df[cand_A + "_median_r2"]) / df[
-        cand_A + "_MAD_r2"
-    ]
-    df[cand_B + "_k_score_1"] = (df[cand_B + "_r2"] - df[cand_B + "_median_r2"]) / df[
-        cand_B + "_MAD_r2"
-    ]
-
-    # add anomalies do df
-    df[cand_A + f"_{new_col_name}"] = df[cand_A + "_k_score_1"] > k
-    df[cand_B + f"_{new_col_name}"] = df[cand_B + "_k_score_1"] > k
+    df[cand_A + f"_{new_col_name}"] = (
+        df[cand_A + "_r2"] - df[cand_A + "_median_r2"]
+    ) / df[cand_A + "_MAD_r2"]
+    df[cand_B + f"_{new_col_name}"] = (
+        df[cand_B + "_r2"] - df[cand_B + "_median_r2"]
+    ) / df[cand_B + "_MAD_r2"]
 
     df = df.drop(
         columns=[
@@ -56,15 +52,13 @@ def add_anomaly_1(df, cand_A, cand_B, k=2, new_col_name="anomaly_1"):
             f"{cand_B}_median_r2",
             f"{cand_A}_MAD_r2",
             f"{cand_B}_MAD_r2",
-            # f"{cand_A}_k_score_1",
-            # f"{cand_B}_k_score_1"
         ]
     )
 
     return df
 
 
-def add_anomaly_2(df, cand_A, cand_B, k=2, new_col_name="anomaly_2"):
+def add_anomaly_2(df, cand_A, cand_B, new_col_name="k_score_2"):
     # wzgledny wzrost między pierwszą a drugą turą
     df[cand_A + "_increase"] = df[cand_A + "_r2"] / df[cand_A + "_r1"]
     df[cand_B + "_increase"] = df[cand_B + "_r2"] / df[cand_B + "_r1"]
@@ -95,19 +89,15 @@ def add_anomaly_2(df, cand_A, cand_B, k=2, new_col_name="anomaly_2"):
         "relative_increase_diff_" + cand_B
     ].transform(mad)
 
-    df[cand_A + "_k_score_2"] = (
+    df[cand_A + f"_{new_col_name}"] = (
         df["relative_increase_diff_" + cand_A]
         - df["relative_increase_diff_" + cand_A + "_median"]
     ) / df["relative_increase_diff_" + cand_A + "_MAD"]
 
-    df[cand_B + "_k_score_2"] = (
+    df[cand_B + f"_{new_col_name}"] = (
         df["relative_increase_diff_" + cand_B]
         - df["relative_increase_diff_" + cand_B + "_median"]
     ) / df["relative_increase_diff_" + cand_B + "_MAD"]
-
-    # add anomaly columns
-    df[cand_A + f"_{new_col_name}"] = df[cand_A + "_k_score_2"] > k
-    df[cand_B + f"_{new_col_name}"] = df[cand_B + "_k_score_2"] > k
 
     df = df.drop(
         columns=[
@@ -119,15 +109,13 @@ def add_anomaly_2(df, cand_A, cand_B, k=2, new_col_name="anomaly_2"):
             f"relative_increase_diff_{cand_A}_MAD",
             f"relative_increase_diff_{cand_B}_median",
             f"relative_increase_diff_{cand_B}_MAD",
-            # f"{cand_A}_k_score_2",
-            # f"{cand_B}_k_score_2"
         ]
     )
 
     return df
 
 
-def add_anomaly_3(df, cand_A, cand_B, k=2, new_col_name="anomaly_3"):
+def add_anomaly_3(df, cand_A, cand_B, new_col_name="flip"):
     # mediana w grupie
     df[cand_A + "_median_r2"] = df.groupby("bucket")[cand_A + "_r2"].transform("median")
     df[cand_B + "_median_r2"] = df.groupby("bucket")[cand_B + "_r2"].transform("median")
@@ -152,7 +140,7 @@ def add_anomaly_3(df, cand_A, cand_B, k=2, new_col_name="anomaly_3"):
             f"{cand_A}_median_r2",
             f"{cand_B}_median_r2",
             # f"higher_median_{cand_A}",
-            # f"higher_median_{cand_B}"
+            # f"higher_median_{cand_B}",
         ]
     )
 

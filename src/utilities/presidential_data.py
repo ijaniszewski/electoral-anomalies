@@ -91,6 +91,7 @@ def load_data(year, round, ext="csv"):
     file_path = os.path.join(
         POLAND_RAW_DATA, f"{year}_presidential", f"round{round}.{ext}"
     )
+    dtype = None
     if int(year) == 2020:
         dtype = {col: "str" for col in range(11, 44)}
     if ext == "csv":
