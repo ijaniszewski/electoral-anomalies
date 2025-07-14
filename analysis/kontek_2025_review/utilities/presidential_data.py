@@ -1,9 +1,11 @@
 import os
 import re
+from pathlib import Path
 
 import pandas as pd
 
-POLAND_RAW_DATA = os.path.join(os.getcwd(), "data", "raw", "poland")
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+POLAND_RAW_DATA = os.path.join(PROJECT_ROOT, "data", "raw", "poland")
 
 BASE_COLUMNS_MAP = {
     # 2025
