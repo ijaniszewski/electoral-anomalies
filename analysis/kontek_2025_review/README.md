@@ -133,6 +133,8 @@ Poniższa tabela przedstawia odsetek komisji obwodowych, w których wykryto co n
 
 Dane te pozwalają porównać rozkład anomalii niezależnie od roku i liczby komisji.
 
+![Anomalies vs previous years](./../../images/anomalies_comparison.png)
+
 
 ### per anomalia
 
