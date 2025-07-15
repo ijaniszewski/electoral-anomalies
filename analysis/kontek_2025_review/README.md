@@ -212,6 +212,28 @@ To silnie sugeruje, że metoda nie wychwytuje prawdziwych anomalii przestrzennyc
 
 W związku z tym wszystkie wnioski oparte na liczbie „anomalii” powinny być interpretowane z najwyższą ostrożnością, a sam model wymaga poważnej rewizji — zarówno pod względem definicji cech (zwłaszcza „flip”), jak i procedury grupowania.
 
+
+#### eksperyment na danych syntetycznych
+Dla pełniejszej weryfikacji działania metod wykrywania anomalii, przeprowadzono również eksperyment z użyciem całkowicie losowo wygenerowanych danych:
+
+* 31 627 komisji podzielono losowo na ~2200 grup (o rozmiarze 10–16),
+
+* wygenerowano rozkład głosów dla Trzaskowskiego i Nawrockiego w I turze zgodnie z rzeczywistymi udziałami (odpowiednio ~30,8% i ~29,1%),
+
+* II tura została zasymulowana jako symetryczny rozkład normalny wokół 50% dla obu kandydatów.
+
+Mimo całkowitej losowości danych (przy założeniu braku jakichkolwiek rzeczywistych anomalii), algorytmy wykryły:
+
+* ponad 7700 „anomalii” dla każdego z kandydatów (Trzaskowski: 7778, Nawrocki: 7715),
+
+* ponad 5000 przypadków typu „flip”, mimo że dane były symetryczne,
+
+* setki przypadków z ≥3 cechami jednocześnie (Trzaskowski: 735, Nawrocki: 730),
+
+* oraz 0 przypadków „more_votes”, co zgadza się z brakiem anomalii zgodnie z rozkładem normalnym
+
+Wniosek: Tak wysoka liczba „anomalii” w danych pozbawionych oszustw jednoznacznie sugeruje, że zastosowane metody mają tendencję do flagowania naturalnych fluktuacji jako odstępstw. Tym samym, brakuje im zdolności do rozróżnienia szumu od rzeczywistych nieprawidłowości – co stawia pod znakiem zapytania ich przydatność w kontekście tak poważnych wniosków, jak fałszerstwa wyborcze.
+
 ## Źródła
 
 * [Raport Fundacji Batorego](https://www.batory.org.pl/publikacja/falszerstwa-czy-falszywe-alarmy-statystyczna-kontrola-wynikow-ii-tury-wyborow-prezydenckich-2025/)
