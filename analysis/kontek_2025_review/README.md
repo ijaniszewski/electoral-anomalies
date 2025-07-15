@@ -22,8 +22,8 @@ Szczególne podziękowania kieruję do Pana Jakuba Białka – jego wcześniejsz
 
 Niestety, dokładne odwzorowanie metod dr. Kontka nie było możliwe:
 
-- Opis algorytmów w artykule jest niepełny.
-- Kod źródłowy nie został udostępniony publicznie.
+- Opis algorytmów w artykule jest niedokładny
+- Kod źródłowy nie został udostępniony publicznie
 - Próby kontaktu z autorem (m.in. przez e-mail i media społecznościowe, takie jak LinkedIn) pozostały bez odpowiedzi, natomiast widać że autor jest w internecie aktywny
 
 Gdyby kod został opublikowany, mógłbym go tutaj natychmiast uwzględnić i przeprowadzić analizę 1:1. 
@@ -56,20 +56,15 @@ To, co możemy i powinniśmy robić, to stale udoskonalać systemy liczenia i re
 
 ## Uwagi metodologiczne
 
-
 W notatniku `kontek.ipynb` zaimplementowano metody wraz z komentarzami i wątpliwościami.
 
-Zwrócono uwagę m.in. na:
+dlaczego metodologia wzbudza tyle wątpliwości?
 
-* ### Wykrywanie outlierów
-
-Za potencjalne obserwacje odstające uznano komisje, w których wystąpiła choćby jedna anomalia. Wydaje się jednak, że za rzeczywiście podejrzane należałoby uznać przypadki, w których wystąpiły np. minimum trzy na cztery "wykroczenia". Wyjątkiem może być sytuacja, w której kandydat uzyskuje mniejszą liczbę głosów w drugiej turze niż w pierwszej — co samo w sobie budzi poważne wątpliwości. Tego rodzaju przypadki powinny być identyfikowane już na etapie wprowadzania danych do systemu
-
-* ### Clustrowanie po kodach pocztowych
+* ### Clustrowanie (grupowanie komisji) po kodach pocztowych
 Choć intuicyjne, może być w niektórych przypadkach nietrafione — kody pocztowe nie zawsze dobrze odwzorowują rzeczywiste granice geograficzne czy społeczne. Dodatkowo, nie usunięto komisji o bardzo specyficznym charakterze (szpitale, domy pomocy społecznej, areszty śledcze, zakłady karne czy komisje zagraniczne) - których wyniki mogą odbiegać od "typowej" komisji
 
 * ### Metoda "flip"
-Zastosowana przez autora metoda "flipowania" wydaje się w tym kontekście bezzasadna - [wyjaśnione przez Pana Piotra Szulca](https://danetyka.com/kontek-analiza-bledow/)) i opisane przeze mnie w notatniku.
+Zastosowana przez autora metoda "flipowania" wydaje się w tym kontekście bezzasadna - [wyjaśnione przez Pana Piotra Szulca](https://danetyka.com/kontek-analiza-bledow/) i opisane przeze mnie w notatniku.
 
 * ### Jednostronność analizy
 Autor skupił się wyłącznie na jednej stronie politycznego sporu, co tłumaczył „brakiem czasu”. Jak jednak pokazano w niniejszym repozytorium, rozszerzenie analizy na inne lata lub przeciwną stronę nie wymagało znaczącego nakładu pracy. Trudno więc oprzeć się wrażeniu, że taki wybór był przynajmniej częściowo intencjonalny — co podważa obiektywność całej analizy.
@@ -89,6 +84,11 @@ Na koniec, autor podkreśla, że komisje wskazane przez jego model zostały wybr
 
 Jeżeli w procesie wykrywania anomalii okazuje się, że aż 17% danych zostało oznaczonych jako anomalie, to istnieje duże ryzyko, że sam model lub algorytm był trenowany na danych już zanieczyszczonych. W takiej sytuacji założenie, że dane normalne dominują, może być złamane, co prowadzi do zniekształcenia wyników. Warto wtedy zastosować iteracyjne podejście do wykrywania anomalii lub metody odporne na outliery, aby ograniczyć wpływ nieprawidłowych obserwacji na cały proces detekcji.
 
+
+* ### Wykrywanie outlierów
+
+Za potencjalne obserwacje odstające uznano komisje, w których wystąpiła choćby jedna anomalia. Wydaje się jednak, że za rzeczywiście podejrzane należałoby uznać przypadki, w których wystąpiły np. minimum trzy na cztery "wykroczenia". Wyjątkiem może być sytuacja, w której kandydat uzyskuje mniejszą liczbę głosów w drugiej turze niż w pierwszej — co samo w sobie budzi poważne wątpliwości. Tego rodzaju przypadki powinny być identyfikowane już na etapie wprowadzania danych do systemu
+
 ## Potencjalne zastosowania modelu w praktyce
 
 Mimo opisanych zastrzeżeń, metody zaproponowane w artykule mogą — po odpowiednich modyfikacjach — znaleźć sensowne i praktyczne zastosowanie, szczególnie jako narzędzia wspierające organizację procesu wyborczego. Przykładowe scenariusze użycia:
@@ -106,9 +106,7 @@ Dla porównania — w plikach `kontek_2020.ipynb` oraz `kontek_2015.ipynb` zaimp
 
 Uważam, że podane w artykule metody są niepoprawne. Niemniej jednak, stosując je do innych lat, możemy mieć jakieś porównanie.
 
-Ponieważ liczba komisji różni się między latami (np. w 2025 było ponad 30 tys., a w 2020 – 26 tys.), wartości zostały **znormalizowane** i pokazane w **procentach** w stosunku do ogólnej liczby komisji w danym roku.
-
-[Liczba komisji wyborczych się zmienia](https://demagog.org.pl/wypowiedzi/protesty-wyborcze-czy-wzrost-liczby-komisji-ma-znaczenie/), dlatego wyniki zostały znormalizowane. Większa liczba komisji to większa skala operacji i naturalnie większa liczba miejsc, w których może dojść do błędu — bez względu na intencje.
+[Liczba komisji wyborczych się zmienia](https://demagog.org.pl/wypowiedzi/protesty-wyborcze-czy-wzrost-liczby-komisji-ma-znaczenie/) (np. w 2025 było ponad 30 tys., a w 2020 – 26 tys.), dlatego wyniki zostały znormalizowane. Większa liczba komisji to większa skala operacji i naturalnie większa liczba miejsc, w których może dojść do błędu — bez względu na intencje.
 
 ### 📊 Odsetek komisji z wykrytymi anomaliami (wg liczby anomalii)
 
@@ -116,14 +114,14 @@ Poniższa tabela przedstawia odsetek komisji obwodowych, w których wykryto co n
 
 
 
-| Rok  | Kandydat     | ≥1 (%) | ≥2 (%) | ≥3 (%) | =4 (%) |
-|------|--------------|--------|--------|--------|--------|
-| 2015 | Duda         | 26.58  | 3.14   | 0.26   | 0.00   |
-| 2015 | Komorowski   | 26.39  | 2.82   | 0.11   | 0.00   |
-| 2020 | Duda         | 23.81  | 2.18   | 0.18   | 0.00   |
-| 2020 | Trzaskowski  | 32.07  | 3.67   | 0.09   | 0.01   |
-| 2025 | Trzaskowski  | 31.05  | 4.22   | 0.15   | 0.01   |
-| 2025 | Nawrocki     | 26.54  | 2.27   | 0.14   | 0.01   |
+| Rok  | Kandydat     | ≥1 (%) | ≥2 (%) | ≥3 (%) |   =4 (%) |
+|------|--------------|--------|--------|--------|----------|
+| 2015 | Duda         | 26.58  | 3.14   | 0.26   | 0.0037   |
+| 2015 | Komorowski   | 26.39  | 2.82   | 0.11   | 0.0000   |
+| 2020 | Duda         | 23.81  | 2.18   | 0.18   | 0.0000   |
+| 2020 | Trzaskowski  | 32.07  | 3.67   | 0.09   | 0.0076   |
+| 2025 | Trzaskowski  | 31.05  | 4.22   | 0.15   | 0.0098   |
+| 2025 | Nawrocki     | 26.54  | 2.27   | 0.14   | 0.0065   |
 
 > **Legenda**:
 > - `≥1 (%)` — odsetek komisji z co najmniej jedną anomalią
@@ -133,7 +131,7 @@ Poniższa tabela przedstawia odsetek komisji obwodowych, w których wykryto co n
 
 Dane te pozwalają porównać rozkład anomalii niezależnie od roku i liczby komisji.
 
-![Anomalies vs previous years](./../../images/anomalies_comparison.png)
+![Anomalies vs previous years](./../../images/anomalies_comparison_2.png)
 
 
 ### per anomalia
