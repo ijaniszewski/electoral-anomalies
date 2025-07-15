@@ -63,6 +63,17 @@ dlaczego metodologia wzbudza tyle wątpliwości?
 * ### Clustrowanie (grupowanie komisji) po kodach pocztowych
 Choć intuicyjne, może być w niektórych przypadkach nietrafione — kody pocztowe nie zawsze dobrze odwzorowują rzeczywiste granice geograficzne czy społeczne. Dodatkowo, nie usunięto komisji o bardzo specyficznym charakterze (szpitale, domy pomocy społecznej, areszty śledcze, zakłady karne czy komisje zagraniczne) - których wyniki mogą odbiegać od "typowej" komisji
 
+* ### Losowe grupowanie komisji
+W ramach testu przeprowadzono również eksperyment polegający na losowym podziale komisji na grupy o rozmiarach zbliżonych do tych, które Kontek uzyskał przez grupowanie po kodach pocztowych (tj. 10–16 komisji w grupie, notatnik `kontek_2025_grupowanie_losowe`).
+
+Celem było sprawdzenie, czy metoda oparta na Median Absolute Deviation (MAD) wykazuje większą skuteczność przy rzeczywistych, przestrzennie sensownych grupach — czy też anomalia pojawia się nawet w czysto losowym układzie.
+
+**Wyniki**: liczba wykrytych „anomalii” w grupowaniu losowym była podobna (lub nawet większa!) jak w grupowaniu opartym na kodach pocztowych. Również wskaźnik "flip", który miał wskazywać lokalne odwrócenie wyniku, występował równie często.
+
+To prowadzi do istotnego wniosku:
+jeśli metoda generuje tyle samo anomalii przy losowym podziale danych, co przy grupowaniu lokalnym — to nie identyfikuje realnych odstępstw, tylko naturalne fluktuacje.
+W takim przypadku jej wartość analityczna jest wątpliwa, a ryzyko nadinterpretacji – bardzo wysokie.
+
 * ### Metoda "flip"
 Zastosowana przez autora metoda "flipowania" wydaje się w tym kontekście bezzasadna - [wyjaśnione przez Pana Piotra Szulca](https://danetyka.com/kontek-analiza-bledow/) i opisane przeze mnie w notatniku.
 
@@ -131,7 +142,7 @@ Poniższa tabela przedstawia odsetek komisji obwodowych, w których wykryto co n
 
 Dane te pozwalają porównać rozkład anomalii niezależnie od roku i liczby komisji.
 
-![Anomalies vs previous years](./../../images/anomalies_comparison_2.png)
+![Anomalies vs previous years](./../../images/anomalies_comparison.png)
 
 
 ### per anomalia
@@ -184,6 +195,22 @@ Poniżej przedstawiono odsetek komisji obwodowych, w których wystąpiła dana p
 | 2015 | Komorowski   | 0.35        |
 
 **Uwaga**: _Wartości mogą się nakładać — tzn. jedna komisja może jednocześnie zawierać wiele różnych anomalii. Dlatego te tabele należy traktować jako niezależne przekroje, a nie sumujące się całości._
+
+#### losowe grupowanie komisji (a nie wg kodu pocztowego)
+
+Dodatkowo, przeprowadzono test z losowym podziałem komisji na grupy, niezależnie od ich położenia geograficznego czy kodu pocztowego. Celem było sprawdzenie, czy metodologia oparta na grupowaniu przestrzennym rzeczywiście wnosi istotną wartość – to znaczy: czy anomalia wykryta w kontekście lokalnym różni się jakościowo od przypadkowego rozrzutu.
+
+Wyniki tej próby okazały się zaskakujące: mimo całkowicie losowego grupowania, wskaźniki anomalii utrzymały się na poziomie zbliżonym, a w niektórych przypadkach (np. dla Trzaskowskiego) były nawet wyższe niż w oryginalnej analizie dr Kontka.
+
+Na przykład:
+
+liczba anomalii typu pop_outlier dla Trzaskowskiego w losowym wariancie wyniosła 6234 komisje, wobec 4551 w wersji „przestrzennej”,
+
+wskaźnik flip, który miał rzekomo identyfikować lokalne odwrócenia preferencji wyborczych, wystąpił w 9290 komisjach w wariancie losowym – więcej niż w jakimkolwiek innym przypadku.
+
+To silnie sugeruje, że metoda nie wychwytuje prawdziwych anomalii przestrzennych, lecz reaguje na naturalne statystyczne odchylenia w danych procentowych – niezależnie od struktury grup. Innymi słowy: model nie odróżnia anomalii od szumu.
+
+W związku z tym wszystkie wnioski oparte na liczbie „anomalii” powinny być interpretowane z najwyższą ostrożnością, a sam model wymaga poważnej rewizji — zarówno pod względem definicji cech (zwłaszcza „flip”), jak i procedury grupowania.
 
 ## Źródła
 
